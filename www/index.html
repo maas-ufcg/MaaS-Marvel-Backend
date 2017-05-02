@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+  </body>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  
+   <script>
+  $(function () {
+	var to = '58fe02f031a7ff1e0286b1e1';
+	var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIkX18iOnsic3RyaWN0TW9kZSI6dHJ1ZSwic2VsZWN0ZWQiOnt9LCJnZXR0ZXJzIjp7fSwid2FzUG9wdWxhdGVkIjpmYWxzZSwiYWN0aXZlUGF0aHMiOnsicGF0aHMiOnsicGFzc3dvcmQiOiJpbml0IiwiZW1haWwiOiJpbml0IiwibmFtZS5sYXN0TmFtZSI6ImluaXQiLCJuYW1lLmZpcnN0TmFtZSI6ImluaXQiLCJfX3YiOiJpbml0IiwiY3JlYXRlZEF0IjoiaW5pdCIsInVwZGF0ZWRBdCI6ImluaXQiLCJfaWQiOiJpbml0In0sInN0YXRlcyI6eyJpZ25vcmUiOnt9LCJkZWZhdWx0Ijp7fSwiaW5pdCI6eyJfX3YiOnRydWUsIm5hbWUubGFzdE5hbWUiOnRydWUsIm5hbWUuZmlyc3ROYW1lIjp0cnVlLCJwYXNzd29yZCI6dHJ1ZSwiZW1haWwiOnRydWUsImNyZWF0ZWRBdCI6dHJ1ZSwidXBkYXRlZEF0Ijp0cnVlLCJfaWQiOnRydWV9LCJtb2RpZnkiOnt9LCJyZXF1aXJlIjp7fX0sInN0YXRlTmFtZXMiOlsicmVxdWlyZSIsIm1vZGlmeSIsImluaXQiLCJkZWZhdWx0IiwiaWdub3JlIl19LCJlbWl0dGVyIjp7ImRvbWFpbiI6bnVsbCwiX2V2ZW50cyI6e30sIl9ldmVudHNDb3VudCI6MCwiX21heExpc3RlbmVycyI6MH19LCJpc05ldyI6ZmFsc2UsIl9kb2MiOnsibmFtZSI6eyJsYXN0TmFtZSI6IlNpbHZhIiwiZmlyc3ROYW1lIjoiTHVjYXMifSwiX192IjowLCJwYXNzd29yZCI6IiQyYSQxMCRaQVFHNHNoN2dDdTVsUm1zWU9MN3R1akh6NTRJUGdoSWM3UGRWcnRkWWgyM0d4MmVBcmpiYSIsImVtYWlsIjoibHVjYXNoZW5yaXF1ZTEyNUBnbWFpbC5jb20iLCJjcmVhdGVkQXQiOiIyMDE3LTA1LTAyVDE5OjUzOjU3LjU0NVoiLCJ1cGRhdGVkQXQiOiIyMDE3LTA1LTAyVDE5OjUzOjU3LjU0NVoiLCJfaWQiOiI1OTA4ZTNkNTBlN2U0ZTM2OWI4YTcyYzIifSwiaWF0IjoxNDkzNzU0ODc3LCJleHAiOjE0OTQzNTk2Nzd9.eaeY1bE0nrVLZQ0XFHi7ihjaL3s2mnFWDslkZVpHJtw';
+    var socket = io.connect('http://localhost:3000', {query: 'auth_token=' +  token});
+    
+
+    socket.on('connect', function() {
+      socket.emit('register socket');
+    });
+
+    socket.on('connect_error', function(err) {
+      alert('deu ruim');
+    });
+
+	socket.on('chat message', function(msg) {
+		showMessage(msg);
+	});
+
+
+    $('form').submit(function(){
+      msg = {messageBody: document.getElementById("m").value, to: to};
+      socket.emit('chat message', msg);
+      $('#m').val('');
+        showMessage(msg);
+      return false;
+    });
+  });
+
+  function showMessage(msg) {
+     $('#messages').append($('<li>').text('message sent to ' + msg.to + ': ' + msg.messageBody));
+  }
+</script>
+</html>
