@@ -14,7 +14,6 @@ const HeroSchema = new mongoose.Schema({
   },
   description: {
       type: String,
-      required: true
   }, 
   modified: {
       type: String,

@@ -23,14 +23,18 @@ app.use('/', express.static(__dirname + '/www'));
 mongoose.connect(config.database);
 
 // Load data from Marvel if absent
-// require('./scripts/data_loader')();
+require('./scripts/data_loader')();
+
+app.use(passport.initialize());
+require('./config/passport')(passport);
 
 require('./app/routes/user_routes')(app);
+require('./app/routes/heros_routes')(app);
 var server = require('http').createServer(app);
 
 // Start the server
 server.listen(port);
 
-console.log('Your server is running on port ' + port + '.');
+console.log('server is running on port ' + port + '.');
 
 require('./app/chat/chat_socket')(server);

@@ -12,6 +12,7 @@
     "bcrypt": "^0.8.5",
     "body-parser": "^1.15.0",
     "cors": "^2.7.1",
+    "crypto": "0.0.3",
     "express": "^4.13.4",
     "jsonwebtoken": "^5.5.4",
     "mongoose": "^4.4.1",

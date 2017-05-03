@@ -6,12 +6,8 @@ var jwt = require('jsonwebtoken');
 var User = require('../models/user');  
 
 module.exports = function(app) {  
-  app.use(passport.initialize());
-
-  require('../../config/passport')(passport);
   var apiRoutes = express.Router();
-
-
+  
   apiRoutes.post('/register', function(req, res) {
     var newUser = new User({
       name: req.body.name,
