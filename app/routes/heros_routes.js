@@ -14,7 +14,7 @@ module.exports = function(app) {
         } else {
             res.json(heros);
         }
-    }).skip(parseInt(req.query['offset'])).limit(parseInt(req.query['limit']));
+    }).skip(parseInt(req.query['offset'] || 0)).limit(parseInt(req.query['limit'] || 20));
   });
 
   // Set url for API group routes
