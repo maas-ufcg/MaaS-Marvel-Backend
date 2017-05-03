@@ -8,7 +8,7 @@ module.exports = function(app) {
   var apiRoutes = express.Router();
 
   apiRoutes.get('/', passport.authenticate('jwt', { session: false }), function(req, res) {
-    Hero.find({}, function(err, heros) {
+    Hero.find({}, {_id: 0, __v: 0}, function(err, heros) {
         if(err) {
             res.json(err);
         } else {
