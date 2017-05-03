@@ -7,7 +7,7 @@ var Hero = require('../models/hero');
 module.exports = function(app) {  
   var apiRoutes = express.Router();
 
-  apiRoutes.get('/heros', passport.authenticate('jwt', { session: false }), function(req, res) {
+  apiRoutes.get('/', passport.authenticate('jwt', { session: false }), function(req, res) {
     Hero.find({}, function(err, heros) {
         if(err) {
             res.json(err);
@@ -18,5 +18,5 @@ module.exports = function(app) {
   });
 
   // Set url for API group routes
-  app.use('/api', apiRoutes);
+  app.use('/api/heros', apiRoutes);
 };

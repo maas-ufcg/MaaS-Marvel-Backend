@@ -62,11 +62,6 @@ module.exports = function(app) {
     return userInfo;
   }
 
-  // Protect dashboard route with JWT
-  apiRoutes.get('/dashboard', passport.authenticate('jwt', { session: false }), function(req, res) {
-    res.json('It worked! User id is: ' + req.user._id + '.');
-  });
-
   // Set url for API group routes
-  app.use('/api', apiRoutes);
+  app.use('/api/users', apiRoutes);
 };
