@@ -17,9 +17,14 @@ module.exports = function(app) {
 
     newUser.save(function(err) {
       if (err) {
-        return res.status(400).json({ success: false, err});
+        if(err.code == 11000) {
+          return res.status(409).json({ success: false, message: 'Email is already taken.'});
+        } 
+
+        return res.status(400).json({ success: false, message: err.message });
       }
-      res.status(201).json({ success: true, message: 'Successfully created new user.' });
+
+      return res.status(201).json({ success: true, message: 'Successfully created new user.', userInfo: generateUserInfo(newUser) });
     });
   });
 
