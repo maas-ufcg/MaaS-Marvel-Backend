@@ -12,7 +12,8 @@ module.exports = function(app) {
     var newUser = new User({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      favorites: req.body.favorites
     });
 
     newUser.save(function(err) {
@@ -27,7 +28,6 @@ module.exports = function(app) {
       return res.status(201).json({ success: true, message: 'Successfully created new user.', userInfo: generateUserInfo(newUser) });
     });
   });
-
 
   apiRoutes.post('/authenticate', function(req, res) {
     console.log('New authententication attempt with ' + req.body.email);
@@ -63,7 +63,7 @@ module.exports = function(app) {
     userInfo._id = user._id;
     userInfo.name = user.name;  
     userInfo.email = user.email;
-
+    userInfo.favorites = user.favorites;
     return userInfo;
   }
 
