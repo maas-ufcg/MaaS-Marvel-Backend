@@ -29,7 +29,7 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 require('./app/routes/user_routes')(app);
-require('./app/routes/heros_routes')(app);
+require('./app/routes/hero_routes')(app);
 var server = require('http').createServer(app);
 
 // Start the server
