@@ -41,9 +41,18 @@ module.exports = function(app) {
       if(index >= 0) {
         doc.favorites.splice(index, 1);
       }
-      
+
       doc.save();
       return res.status(200).json({ success: true, message: 'Successfully unmarked hero as favorite'});
+    });
+  });
+
+
+  apiRoutes.get('/favorite', passport.authenticate('jwt', { session: false }), function(req, res) {
+    User.findOne({email: req.user.email}, function(err, doc) { 
+      if (err) throw err;
+      
+      return res.status(200).json({ success: true, message: 'Successfully unmarked hero as favorite', favorites: doc.favorites});
     });
   });
 
