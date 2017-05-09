@@ -18,6 +18,8 @@ module.exports = function(app) {
     }).skip(parseInt(req.query['offset'] || 0)).limit(parseInt(req.query['limit'] || 20));
   });
 
+
+
   apiRoutes.post('/favorite/:id', passport.authenticate('jwt', { session: false }), function(req, res) {
     User.findOne({email: req.user.email}, function(err, doc) { 
       if (err) throw err;
@@ -53,6 +55,18 @@ module.exports = function(app) {
       if (err) throw err;
       
       return res.status(200).json({ success: true, message: 'Successfully unmarked hero as favorite', favorites: doc.favorites});
+    });
+  });
+
+  apiRoutes.get('/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+    let id = req.params.id;
+    Hero.findOne({id:id}, function(err, hero) {
+        if(err) {
+            throw err;
+        } else {
+            console.log(hero);
+            return res.status(200).json({ success: true, message: 'Successfully', hero: hero});
+        }
     });
   });
 
