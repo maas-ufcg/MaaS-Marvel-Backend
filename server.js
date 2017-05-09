@@ -17,7 +17,6 @@ app.use(cors());
 
 // Log requests to console
 app.use(morgan('dev'));
-app.use('/', express.static(__dirname + '/www'));
 
 // Connect to database
 mongoose.connect(config.database);
