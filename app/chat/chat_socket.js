@@ -27,9 +27,6 @@ module.exports = function(server) {
   }));
 
   io.on('connection', function(socket) {
-    ChatRecord.remove({}, function() {
-      
-    })
     let user = socket.request.user;
 
     socket.on('subscribe', function(heroId) {
@@ -58,7 +55,6 @@ module.exports = function(server) {
     socket.on('retrieve messages', function(heroId, fn) {
       ChatRecord.find({heroId: heroId}, function(err, records){
         fn(records);
-        console.log(records);
       });
     });
 

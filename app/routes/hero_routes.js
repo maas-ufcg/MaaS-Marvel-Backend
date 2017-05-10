@@ -54,7 +54,7 @@ module.exports = function (app) {
     User.findOne({ email: req.user.email }, function (err, doc) {
       if (err) throw err;
 
-      return res.status(200).json({ success: true, message: 'Successfully unmarked hero as favorite', favorites: doc.favorites });
+      return res.status(200).json({ success: true, favorites: doc.favorites });
     });
   });
 
@@ -64,7 +64,7 @@ module.exports = function (app) {
       if (err) {
         throw err;
       } else {
-        return res.status(200).json({ success: true, message: 'Successfully', result: heroes });
+        return res.status(200).json({ success: true, result: heroes });
       }
     })
   });
@@ -75,8 +75,7 @@ module.exports = function (app) {
       if (err) {
         throw err;
       } else {
-        console.log(hero);
-        return res.status(200).json({ success: true, message: 'Successfully', hero: hero });
+        return res.status(200).json({ success: true, hero: hero });
       }
     });
   });
