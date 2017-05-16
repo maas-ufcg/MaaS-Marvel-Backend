@@ -59,7 +59,7 @@ module.exports = function (app) {
   });
 
   apiRoutes.get('/search/:params', passport.authenticate('jwt', { session: false }), function (req, res) {
-    let name = req.query.name;
+    var name = req.query.name;
     Hero.find({ name: {$regex: name, $options: 'i'}}, function (err, heroes) {
       if (err) {
         throw err;
@@ -67,6 +67,25 @@ module.exports = function (app) {
         return res.status(200).json({ success: true, result: heroes });
       }
     })
+  });
+
+  apiRoutes.get('/recommendation/:params', passport.authenticate('jwt', { session: false }), function (req, res) {
+    var name = req.query.name.split(" ");
+    var id = req.query.id;
+/*    var condition = "";
+    for(var i = 0; i <name.length; i++){
+      condition += "this.name == " + name[i]
+      if(i + 1 < name.length){
+        condition += " || "
+      }
+    }*/
+     Hero.find({ name: {$regex: name[0], $options: 'i'}, $where: "this.id != " + id}, function (err, heroes) {
+      if (err) {
+        throw err;
+      } else {
+        return res.status(200).json({ success: true, result: heroes });
+      }
+    }).limit(3)
   });
 
   apiRoutes.get('/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
