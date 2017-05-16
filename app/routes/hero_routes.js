@@ -63,7 +63,7 @@ module.exports = function (app) {
     });
   });
 
-  apiRoutes.get('/search/:params', passport.authenticate('jwt', { session: false }), function (req, res) {
+  apiRoutes.get('/search', passport.authenticate('jwt', { session: false }), function (req, res) {
     let name = req.query.name;
     Hero.find({ name: {$regex: name, $options: 'i'}}, function (err, heroes) {
       if (err) {
