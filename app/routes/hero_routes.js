@@ -2,6 +2,7 @@ var passport = require('passport');
 var express = require('express');
 var config = require('../../config/main');
 var jwt = require('jsonwebtoken');
+var _ = require('underscore')
 var Hero = require('../models/hero');
 var User = require('../models/user');
 
@@ -9,13 +10,17 @@ module.exports = function (app) {
   var apiRoutes = express.Router();
 
   apiRoutes.get('/', passport.authenticate('jwt', { session: false }), function (req, res) {
-    Hero.find({}, { _id: 0, __v: 0 }, function (err, heroes) {
+    var page_param = parseInt(req.query.page);
+    var page = _.isNaN(page_param) | page_param < 0 ? 0 : page_param;
+    const HEROES_PER_PAGE = 20;
+
+      Hero.find({}, { _id: 0, __v: 0 }, function (err, heroes) {
       if (err) {
         res.json(err);
       } else {
-        res.json(heroes);
+          res.json(heroes);
       }
-    }).skip(parseInt(req.query['offset'] || 0)).limit(parseInt(req.query['limit'] || 20));
+    }).skip(parseInt(req.query['offset'] || page * HEROES_PER_PAGE)).limit(parseInt(req.query['limit'] || HEROES_PER_PAGE));
   });
 
 
