@@ -63,8 +63,13 @@ module.exports = function (app) {
     });
   });
 
+<<<<<<< HEAD
+  apiRoutes.get('/search/:params', passport.authenticate('jwt', { session: false }), function (req, res) {
+    var name = req.query.name;
+=======
   apiRoutes.get('/search', passport.authenticate('jwt', { session: false }), function (req, res) {
     let name = req.query.name;
+>>>>>>> 2c283eecb1ae39f1d51214ac55cc428a6722a2a2
     Hero.find({ name: {$regex: name, $options: 'i'}}, function (err, heroes) {
       if (err) {
         throw err;
